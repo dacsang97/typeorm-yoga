@@ -1,11 +1,32 @@
-import * as express from 'express'
+import 'reflect-metadata'
+import { createConnection } from 'typeorm'
+import * as Express from 'express'
+import * as bodyParser from 'body-parser'
+import { createTodo, getAllTodos, getTodoById, updateTodo, deleteTodo } from './manager/todoManager'
+import { createComment } from './manager/commentManager'
 
-const app = express()
+createConnection().then(() => {
+  const app = Express()
 
-app.get('/', (_, res) => {
-  res.send('Hello')
-})
+  app.use(
+    bodyParser.urlencoded({
+      extended: false,
+    }),
+  )
 
-app.listen(3000, () => {
-  console.log('App running on port 3000')
+  app.get('/', (_, res) => {
+    res.send('Hello')
+  })
+
+  // CRUD : CREATE - READ - UPDATE - DELETE
+  // RESTFUL API
+  app.post('/todo', createTodo)
+  app.get('/todo', getAllTodos)
+  app.get('/todo/:id', getTodoById)
+  app.patch('/todo/:id', updateTodo)
+  app.delete('/todo/:id', deleteTodo)
+
+  app.post('/todo/:id/comment', createComment)
+
+  app.listen(3000)
 })
