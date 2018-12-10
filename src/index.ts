@@ -1,11 +1,11 @@
-import * as express from 'express';
+import * as express from 'express'
 
-const app = express();
+const app = express()
 
 app.get('/', (_, res) => {
-	res.send('Hello');
-});
+  res.send('Hello')
+})
 
 app.listen(3000, () => {
-	console.log('App running on port 3000');
-});
+  console.log('App running on port 3000')
+})
