@@ -1,0 +1,14 @@
+# import Todo from "./Todo.graphql"
+
+type Category {
+  name: String!
+}
+
+type Comment {
+  content: String!
+}
+
+type Query {
+  hello: String
+  todoList: [Todo!]
+}

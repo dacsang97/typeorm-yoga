@@ -1,32 +1,18 @@
 import 'reflect-metadata'
+import { join } from 'path'
+import { GraphQLServer } from 'graphql-yoga'
 import { createConnection } from 'typeorm'
-import * as Express from 'express'
-import * as bodyParser from 'body-parser'
-import { createTodo, getAllTodos, getTodoById, updateTodo, deleteTodo } from './manager/todoManager'
-import { createComment } from './manager/commentManager'
+import { importSchema } from 'graphql-import'
+import { makeExecutableSchema } from 'graphql-tools'
+
+import { resolvers } from './modules/todo/resolvers'
 
 createConnection().then(() => {
-  const app = Express()
+  const typeDefs = importSchema(join(__dirname, './modules/todo/schema.graphql'))
+  const schema = makeExecutableSchema({ typeDefs, resolvers })
 
-  app.use(
-    bodyParser.urlencoded({
-      extended: false,
-    }),
-  )
-
-  app.get('/', (_, res) => {
-    res.send('Hello')
+  const server = new GraphQLServer({
+    schema,
   })
-
-  // CRUD : CREATE - READ - UPDATE - DELETE
-  // RESTFUL API
-  app.post('/todo', createTodo)
-  app.get('/todo', getAllTodos)
-  app.get('/todo/:id', getTodoById)
-  app.patch('/todo/:id', updateTodo)
-  app.delete('/todo/:id', deleteTodo)
-
-  app.post('/todo/:id/comment', createComment)
-
-  app.listen(3000)
+  server.start()
 })

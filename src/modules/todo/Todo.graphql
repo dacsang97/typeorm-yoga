@@ -1,0 +1,6 @@
+type Todo {
+  title: String!
+  content: String!
+  comment: Comment
+  category: Category
+}

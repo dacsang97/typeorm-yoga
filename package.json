@@ -27,6 +27,9 @@
   },
   "dependencies": {
     "express": "^4.16.4",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.3",
+    "graphql-yoga": "^1.16.7",
     "reflect-metadata": "^0.1.12",
     "typeorm": "^0.2.9"
   },
